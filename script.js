@@ -31,10 +31,25 @@ document.getElementById("bg").style.backgroundImage=`url(${backgrounds[i]})`;
 
 /* CURSOR FIX */
 document.addEventListener("mousemove",(e)=>{
+
 if(cursor){
 cursor.style.left=e.clientX+"px";
 cursor.style.top=e.clientY+"px";
 }
+
+const butterfly=document.createElement("div");
+butterfly.className="cursor-butterfly";
+butterfly.innerHTML="🦋";
+
+butterfly.style.left=e.clientX+"px";
+butterfly.style.top=e.clientY+"px";
+
+document.body.appendChild(butterfly);
+
+setTimeout(()=>{
+butterfly.remove();
+},1000);
+
 });
 
 /* MUSIC FIX */
