@@ -286,7 +286,6 @@ endingBlock=`
 
 <p>Some people leave quietly.<br>
 And I never learn how to stop them.</p>
-
 <hr>
 
 <h1>🖤 Possessive Ending</h1>
@@ -386,3 +385,11 @@ I love you, my dear husband.
 </div>
 `;
 }
+
+/* =========================
+   ⭐ FIX ADDED ONLY (DO NOT REMOVE)
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadChapter(0);
+});
