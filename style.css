@@ -1,22 +1,20 @@
 body{
 margin:0;
+overflow:hidden;
 background:black;
 color:white;
 font-family:Arial;
-overflow:hidden;
 }
 
-/* BACKGROUND */
 #bg{
 position:fixed;
 inset:0;
 background-size:cover;
 background-position:center;
-filter:brightness(0.6);
 z-index:-1;
+transition:1s ease;
 }
 
-/* MENU */
 #menuScreen{
 position:fixed;
 inset:0;
@@ -25,69 +23,56 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 gap:12px;
-background:black;
-z-index:9999;
-}
-
-.menu-title{
-color:#ff4da6;
-font-size:28px;
-}
-
-/* SETTINGS */
-#settingsPanel{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.9);
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-gap:10px;
-z-index:10000;
+background:rgba(0,0,0,0.7);
+z-index:10;
 }
 
 .hidden{display:none;}
 
-/* DIALOGUE */
+button{
+padding:10px 20px;
+background:black;
+color:white;
+border:1px solid white;
+}
+
 #dialogueBox{
 position:absolute;
-top:35%;
+top:30%;
 left:50%;
 transform:translate(-50%,-50%);
 width:90%;
-max-width:700px;
+max-width:600px;
 background:rgba(0,0,0,0.6);
 padding:15px;
-border:1px solid #ff4da6;
-border-radius:10px;
+border:1px solid white;
+transition:0.4s;
 }
 
 #choices{
 position:absolute;
-top:75%;
+top:70%;
 left:50%;
 transform:translateX(-50%);
 display:flex;
 flex-direction:column;
-gap:8px;
-width:90%;
-max-width:500px;
+gap:10px;
+width:80%;
 }
 
 .choice-btn{
 padding:10px;
-border:1px solid #ff4da6;
 background:black;
 color:white;
+border:1px solid white;
 }
 
-/* CURSOR */
 #cursor{
-position:fixed;
-width:10px;
-height:10px;
+width:12px;
+height:12px;
 border-radius:50%;
-background:#ff4da6;
+background:white;
+position:fixed;
 pointer-events:none;
+mix-blend-mode:difference;
 }
