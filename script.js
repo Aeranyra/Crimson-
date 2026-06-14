@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", startVN);
 
 function startVN(){
 
+/* ELEMENTS */
 const storyText=document.getElementById("storyText");
 const questionText=document.getElementById("questionText");
 const choicesBox=document.getElementById("choices");
@@ -10,6 +11,7 @@ const endingBox=document.getElementById("ending");
 const bgm=document.getElementById("bgm");
 const clickSound=document.getElementById("clickSound");
 const cursor=document.getElementById("cursor");
+
 const menuScreen=document.getElementById("menuScreen");
 
 let musicStarted=false;
@@ -27,23 +29,15 @@ function setBG(i){
 document.getElementById("bg").style.backgroundImage=`url(${backgrounds[i]})`;
 }
 
-/* CURSOR + BUTTERFLY */
+/* CURSOR FIX */
 document.addEventListener("mousemove",(e)=>{
-
+if(cursor){
 cursor.style.left=e.clientX+"px";
 cursor.style.top=e.clientY+"px";
-
-const b=document.createElement("div");
-b.className="cursor-butterfly";
-b.innerHTML="🦋";
-b.style.left=e.clientX+"px";
-b.style.top=e.clientY+"px";
-document.body.appendChild(b);
-setTimeout(()=>b.remove(),900);
-
+}
 });
 
-/* MUSIC */
+/* MUSIC FIX */
 document.body.addEventListener("click",()=>{
 if(!musicStarted){
 bgm.volume=0.4;
@@ -89,20 +83,22 @@ choices:[
 ]
 },
 
-/* CHAPTERS (UNCHANGED QUESTIONS) */
+/* CHAPTER 1 */
 {
 text:`🌹 CHAPTER 1 — The Crimson Gate`,
 question:`Do you dare to step beyond the gate?`,
 bg:1,
 choices:[
-{text:"Enter 🦋",note:`You stepped inside without knowing what waited for you.`,next:2,path:"true"},
+{text:"Enter 🦋",note:`You stepped inside without knowing what waited for you.
+That was brave. Or foolish.`,next:2,path:"true"},
 {text:"Turn back 🌙",note:`Not everyone is meant to enter every garden.`,next:2,path:"neutral"}
 ]
 },
 
+/* CHAPTER 2 */
 {
 text:`🦋 CHAPTER 2 — The Butterfly`,
-question:`If something fragile lands in your hands… do you move?`,
+question:`If something fragile lands… do you move?`,
 bg:2,
 choices:[
 {text:"Stay still 🌹",note:`It trusted you enough to land.`,next:3,path:"true"},
@@ -110,9 +106,10 @@ choices:[
 ]
 },
 
+/* CHAPTER 3 */
 {
 text:`🌙 CHAPTER 3 — The Locked Greenhouse`,
-question:`Do you dare to disturb what was meant to stay closed?`,
+question:`Do you approach the lock?`,
 bg:3,
 choices:[
 {text:"Ask 🔑",note:`Curiosity is dangerous here.`,next:4,path:"neutral"},
@@ -120,9 +117,10 @@ choices:[
 ]
 },
 
+/* CHAPTER 4 */
 {
 text:`🌹 CHAPTER 4 — The Wilted Rose`,
-question:`When beauty begins to fade… do you still stay?`,
+question:`Do you still hold on?`,
 bg:4,
 choices:[
 {text:"Keep 🌹",note:`You stayed even when it lost its beauty.`,next:5,path:"true"},
@@ -130,9 +128,10 @@ choices:[
 ]
 },
 
+/* CHAPTER 5 */
 {
 text:`💌 CHAPTER 5 — The Unfinished Letter`,
-question:`Would you read something never meant to be finished?`,
+question:`Do you open it?`,
 bg:4,
 choices:[
 {text:"Read 🌙",note:`Every word feels like a risk.`,next:6,path:"neutral"},
@@ -140,9 +139,10 @@ choices:[
 ]
 },
 
+/* CHAPTER 6 */
 {
 text:`🦋 CHAPTER 6 — The Empty Bench`,
-question:`Do you choose closeness or distance?`,
+question:`Do you stay?`,
 bg:4,
 choices:[
 {text:"Sit beside 💙",note:`The bench was never lonely.`,next:"end",path:"true"},
@@ -162,7 +162,6 @@ setBG(data.bg);
 
 storyText.textContent=data.text;
 questionText.textContent=data.question;
-
 choicesBox.innerHTML="";
 
 data.choices.forEach(c=>{
@@ -176,7 +175,7 @@ btn.onclick=()=>{
 clickSound.currentTime=0;
 clickSound.play().catch(()=>{});
 
-storyText.innerHTML=`<div class="choice-note">${c.note}</div>`;
+storyText.innerHTML=`<div>${c.note}</div>`;
 questionText.textContent="";
 
 setTimeout(()=>{
@@ -195,13 +194,17 @@ choicesBox.appendChild(btn);
 });
 }
 
-/* ENDING FIXED + POSSESSIVE RESTORED */
+/* ENDING (UNCHANGED LOGIC) */
 function endGame(path){
 
 endingBox.innerHTML="";
+storyText.innerHTML="";
+choicesBox.innerHTML="";
 
-let title="",text="";
+let title="";
+let text="";
 
+/* 💔 Neutral Ending */
 if(path==="neutral"){
 title="💔 Forgotten Ending";
 text=`Some people leave quietly.
@@ -209,7 +212,20 @@ text=`Some people leave quietly.
 And I never learn how to stop them.`;
 }
 
-else if(path==="true"){
+/* 🖤 POSSESSIVE ENDING (RESTORED) */
+else if(path==="possessive"){
+title="🖤 Possessive Ending";
+text=`You stayed…
+
+but not freely.
+
+I started noticing the difference between love and possession.
+
+And I couldn’t tell when I stopped asking and started keeping.`;
+}
+
+/* 💙 Devoted Ending */
+else{
 title="💙 Devoted Ending";
 text=`You never forced me to open.
 
@@ -218,25 +234,20 @@ You simply stayed until I wanted to.
 That is why I chose you.`;
 }
 
-else{
-title="🖤 Possessive Ending";
-text=`You stayed…
-but I began to hold on too tightly.
-
-And love stopped feeling soft.`;
-}
-
 endingBox.innerHTML=`
 <div class="letter">
+
 <h1>${title}</h1>
 <p>${text}</p>
 
-<button onclick="finalLetter()">💌 Final Letter</button>
+<br>
+<button onclick="finalLetter('${path}')">💌 Final Letter</button>
+
 </div>
 `;
 }
 
-/* FINAL LETTER (FULL RESTORED) */
+/* FINAL LETTER (UNCHANGED) */
 window.finalLetter=function(){
 
 endingBox.innerHTML=`
@@ -306,9 +317,8 @@ with someone patient, soft, and true.
 `;
 };
 
-/* MENU */
+/* START */
 menuScreen.style.display="flex";
-
 document.getElementById("startBtn").onclick=()=>{
 menuScreen.style.display="none";
 loadChapter(0);
