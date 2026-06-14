@@ -9,16 +9,36 @@
 
 <body>
 
+<!-- BACKGROUND -->
 <div id="bg"></div>
 
-<audio id="bgm" loop>
-  <source src="https://files.catbox.moe/kpq69l.mp3" type="audio/mpeg">
-</audio>
+<!-- MENU -->
+<div id="menuScreen">
+  <div class="menu-title">🌙 Crimson Butterfly</div>
 
-<audio id="clickSound">
-  <source src="https://files.catbox.moe/kpq69l.mp3" type="audio/mpeg">
-</audio>
+  <button id="startBtn" class="menu-btn">Start</button>
+  <button id="continueBtn" class="menu-btn">Continue</button>
+  <button id="settingsBtn" class="menu-btn">Settings</button>
+</div>
 
+<!-- SETTINGS -->
+<div id="settingsPanel" class="hidden">
+  <h2>Settings</h2>
+
+  <label>
+    Music
+    <input type="checkbox" id="musicToggle" checked>
+  </label>
+
+  <label>
+    Sound
+    <input type="checkbox" id="soundToggle" checked>
+  </label>
+
+  <button id="closeSettings">Close</button>
+</div>
+
+<!-- GAME -->
 <div id="dialogueBox">
   <div id="storyText"></div>
 </div>
@@ -27,6 +47,16 @@
 
 <div id="ending"></div>
 
+<!-- AUDIO -->
+<audio id="bgm" loop>
+  <source src="https://files.catbox.moe/kpq69l.mp3">
+</audio>
+
+<audio id="clickSound">
+  <source src="https://files.catbox.moe/kpq69l.mp3">
+</audio>
+
+<!-- CURSOR -->
 <div id="cursor"></div>
 
 <script src="script.js"></script>
