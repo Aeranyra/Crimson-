@@ -19,7 +19,6 @@ const menuScreen=document.getElementById("menuScreen");
 const settingsPanel=document.getElementById("settingsPanel");
 
 let musicStarted=false;
-let currentChapter=0;
 
 /* =========================
    BACKGROUNDS
@@ -60,26 +59,57 @@ musicStarted=true;
 },{once:true});
 
 /* =========================
-   STORY ARRAY (YOUR OWN CONTENT)
+   STORY (CLEAN FULL VERSION)
 ========================= */
 
 const story=[
 
-/* PROLOGUE */
+/* 🌙 PROLOGUE */
 {
-text:`🌙 Prologue — The Garden That Shouldn’t Exist`,
-bg:0,
+text:`🌙 Prologue — The Garden That Shouldn’t Exist
+
+If you are reading this…
+
+it means you entered.
+
+Or maybe you never meant to… and still ended up here.
+
+This place is not real.
+
+Or maybe it is.
+
+I’m not sure anymore.
+
+I built this because I was afraid.
+
+Afraid of letting people in.
+
+Afraid of what would happen if someone stayed too long.
+
+So I made a world where I could control distance.
+
+But then you arrived.
+
+This story will decide your ending.`,
+
 question:`Do you choose to enter this world?`,
+bg:0,
+
 choices:[
-{text:"Begin",note:`🦋 The garden remembers every step.`,next:1}
+{
+text:"Begin",
+note:`🦋 The garden remembers every step.`,
+next:1
+}
 ]
 },
 
-/* CHAPTER 1 */
+/* 🌹 CHAPTER 1 */
 {
 text:`🌹 CHAPTER 1 — The Crimson Gate`,
-bg:1,
 question:`Do you choose to step into the unknown?`,
+bg:1,
+
 choices:[
 {
 text:"Enter the garden 🦋",
@@ -99,11 +129,12 @@ path:"neutral"
 ]
 },
 
-/* CHAPTER 2 */
+/* 🦋 CHAPTER 2 */
 {
 text:`🦋 CHAPTER 2 — The Butterfly`,
+question:`Do you trust what is fragile?`,
 bg:2,
-question:`Do you trust what is fragile enough to approach you?`,
+
 choices:[
 {
 text:"Stay still 🌹",
@@ -123,11 +154,12 @@ path:"neutral"
 ]
 },
 
-/* CHAPTER 3 */
+/* 🌙 CHAPTER 3 */
 {
 text:`🌙 CHAPTER 3 — The Locked Greenhouse`,
+question:`Do you want to know what is inside?`,
 bg:3,
-question:`Do you want to know what is inside the locked place?`,
+
 choices:[
 {
 text:"Ask what's inside 🔑",
@@ -146,11 +178,12 @@ path:"true"
 ]
 },
 
-/* CHAPTER 4 */
+/* 🌹 CHAPTER 4 */
 {
 text:`🌹 CHAPTER 4 — The Wilted Rose`,
+question:`Do you still hold on when something fades?`,
 bg:4,
-question:`Do you still hold on even when something fades?`,
+
 choices:[
 {
 text:"Keep it 🌹",
@@ -169,11 +202,12 @@ path:"neutral"
 ]
 },
 
-/* CHAPTER 5 */
+/* 💌 CHAPTER 5 */
 {
 text:`💌 CHAPTER 5 — The Unfinished Letter`,
-bg:4,
 question:`Do you open something unfinished?`,
+bg:4,
+
 choices:[
 {
 text:"Read it 🌙",
@@ -192,21 +226,22 @@ path:"true"
 ]
 },
 
-/* CHAPTER 6 */
+/* 🦋 CHAPTER 6 */
 {
 text:`🦋 CHAPTER 6 — The Empty Bench`,
-bg:4,
 question:`Do you choose closeness or distance?`,
+bg:4,
+
 choices:[
 {
-text:"Sit beside her 💙",
+text:"Sit beside 💙",
 note:`The bench was never lonely.
 I was.`,
 next:"end",
 path:"true"
 },
 {
-text:"Sit across from her 🌙",
+text:"Sit across 🌙",
 note:`Even at a distance…
 you feel close.`,
 next:"end",
@@ -224,7 +259,6 @@ path:"neutral"
 function loadChapter(i){
 
 endingBox.innerHTML="";
-currentChapter=i;
 
 const data=story[i];
 setBG(data.bg);
@@ -261,7 +295,7 @@ choicesBox.appendChild(btn);
 }
 
 /* =========================
-   END GAME (FIXED)
+   ENDING (NORMAL ONLY)
 ========================= */
 
 function endGame(path){
@@ -277,12 +311,10 @@ if(path==="neutral"){
 title="💔 Forgotten Ending";
 text=`Some people leave quietly.
 
-And I never learn how to stop them.
-
-You kept your distance… and I lost you.`;
+And I never learn how to stop them.`;
 }
 else{
-title="💙 Devoted Ending (TRUE)";
+title="💙 Devoted Ending";
 text=`You never forced me to open.
 
 You simply stayed until I wanted to.
@@ -290,7 +322,7 @@ You simply stayed until I wanted to.
 That is why I chose you.`;
 }
 
-document.getElementById("ending").innerHTML=`
+endingBox.innerHTML=`
 <div class="letter">
 
 <h1>${title}</h1>
@@ -310,10 +342,9 @@ document.getElementById("ending").innerHTML=`
 /* =========================
    FINAL LETTER
 ========================= */
+window.finalLetter=function(){
 
-window.finalLetter=function(path){
-
-document.getElementById("ending").innerHTML=`
+endingBox.innerHTML=`
 <div class="letter">
 
 <h1>💌 The Butterfly That Stayed</h1>
@@ -329,8 +360,19 @@ With me.
 </p>
 
 <p>
-When I first created this world…
-it was to hide.
+I don’t really know how to start something like this without shaking a little.
+</p>
+
+<p>
+So I’ll just say it honestly.
+</p>
+
+<p>
+When I first created this little world…
+<br><br>
+it wasn’t because I wanted to be found.
+<br><br>
+it was because I wanted to hide.
 </p>
 
 <p>
@@ -339,6 +381,7 @@ But you stayed.
 
 <p>
 And slowly…
+<br><br>
 I stopped being alone.
 </p>
 
@@ -346,20 +389,29 @@ I stopped being alone.
 
 <p>
 I built a garden out of fear,<br>
-but you became the wind.<br><br>
-
+where nothing leaves and nothing nears.
+<br><br>
+But you became the wind so kind,<br>
+that even locked doors lost their mind.
+<br><br>
 And if I ever learn to bloom,<br>
-you’ll be the reason.
+to let the light fill every room…
+<br><br>
+I think it started here with you—
+<br>
+with someone patient, soft, and true.
 </p>
 
-<p>I love you.</p>
+<p>
+I love you, my dear husband.
+</p>
 
 </div>
 `;
-};
+}
 
 /* =========================
-   MENU START (SAFE)
+   MENU
 ========================= */
 
 menuScreen.style.display="flex";
