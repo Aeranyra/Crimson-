@@ -190,8 +190,11 @@ btn.onclick=()=>{
 clickSound.currentTime=0;
 clickSound.play().catch(()=>{});
 
-storyText.innerHTML=`<div>${c.note}</div>`;
+storyText.innerHTML =
+`<div class="choice-note">${c.note}</div>`;
+
 questionText.textContent="";
+choicesBox.innerHTML="";
 
 setTimeout(()=>{
 
