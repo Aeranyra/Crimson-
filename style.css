@@ -20,27 +20,18 @@ z-index:-1;
 #menuScreen{
 position:fixed;
 inset:0;
-background:black;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-gap:15px;
+gap:12px;
+background:black;
 z-index:9999;
 }
 
 .menu-title{
-font-size:28px;
 color:#ff4da6;
-margin-bottom:20px;
-}
-
-.menu-btn{
-padding:10px 20px;
-border:1px solid #ff4da6;
-background:transparent;
-color:white;
-border-radius:8px;
+font-size:28px;
 }
 
 /* SETTINGS */
@@ -58,7 +49,7 @@ z-index:10000;
 
 .hidden{display:none;}
 
-/* GAME UI */
+/* DIALOGUE */
 #dialogueBox{
 position:absolute;
 top:35%;
@@ -86,8 +77,8 @@ max-width:500px;
 
 .choice-btn{
 padding:10px;
-background:black;
 border:1px solid #ff4da6;
+background:black;
 color:white;
 }
 
