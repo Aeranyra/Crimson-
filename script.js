@@ -1,14 +1,26 @@
+document.addEventListener("DOMContentLoaded", startVN);
+
+function startVN(){
+
+/* =========================
+   ELEMENTS (SAFE INIT)
+========================= */
+
 const storyText=document.getElementById("storyText");
 const choicesBox=document.getElementById("choices");
 const endingBox=document.getElementById("ending");
 
 const bgm=document.getElementById("bgm");
 const clickSound=document.getElementById("clickSound");
-
 const cursor=document.getElementById("cursor");
 
 const menuScreen=document.getElementById("menuScreen");
 const settingsPanel=document.getElementById("settingsPanel");
+
+if(!storyText || !choicesBox || !menuScreen){
+    alert("Missing HTML elements");
+    return;
+}
 
 let musicStarted=false;
 let currentChapter=0;
@@ -30,7 +42,7 @@ document.getElementById("bg").style.backgroundImage=`url(${backgrounds[i]})`;
 }
 
 /* =========================
-   CURSOR
+   CURSOR (SAFE)
 ========================= */
 
 document.addEventListener("mousemove",(e)=>{
@@ -40,7 +52,25 @@ cursor.style.top=e.clientY+"px";
 });
 
 /* =========================
-   STORY (YOUR ORIGINAL STRUCTURE)
+   FADE SYSTEM
+========================= */
+
+function fadeText(callback){
+
+storyText.style.opacity="0";
+
+setTimeout(()=>{
+
+callback();
+
+storyText.style.opacity="1";
+
+},250);
+
+}
+
+/* =========================
+   STORY
 ========================= */
 
 const story=[
@@ -73,9 +103,7 @@ But then you arrived.
 
 This story will decide your ending.`,
 bg:0,
-choices:[
-{text:"Begin",note:`You step forward…`,next:1}
-]
+choices:[{text:"Begin",note:`You step forward…`,next:1}]
 },
 
 /* CHAPTER 1 */
@@ -216,7 +244,7 @@ path:"neutral"
 ];
 
 /* =========================
-   LOAD CHAPTER
+   LOAD CHAPTER (FADE FIXED)
 ========================= */
 
 function loadChapter(i){
@@ -226,9 +254,15 @@ currentChapter=i;
 localStorage.setItem("save",i);
 
 const data=story[i];
+
 setBG(data.bg);
 
+fadeText(()=>{
+
 storyText.textContent=data.text;
+
+});
+
 choicesBox.innerHTML="";
 
 data.choices.forEach(c=>{
@@ -239,15 +273,19 @@ btn.textContent=c.text;
 
 btn.onclick=()=>{
 
-clickSound.play().catch(()=>{});
+clickSound?.play().catch(()=>{});
 
-if(!musicStarted){
+if(!musicStarted && bgm){
 bgm.volume=0.4;
 bgm.play().catch(()=>{});
 musicStarted=true;
 }
 
+fadeText(()=>{
+
 storyText.innerHTML=`<div class="choice-note">${c.note}</div>`;
+
+});
 
 setTimeout(()=>{
 
@@ -263,17 +301,17 @@ loadChapter(c.next);
 
 choicesBox.appendChild(btn);
 });
+
 }
 
 /* =========================
-   FINAL LETTER + 3 ENDINGS
+   FINAL LETTER
 ========================= */
 
 function finalLetter(path){
 
 let endingBlock="";
 
-/* 💔 FORGOTTEN ENDING */
 if(path==="neutral"){
 
 endingBlock=`
@@ -287,8 +325,6 @@ And I never learn how to stop them.</p>
 <p>You kept your distance… and I lost you.</p>
 `;
 }
-
-/* 💙 TRUE ENDING */
 else{
 
 endingBlock=`
@@ -301,8 +337,6 @@ You simply stayed until I wanted to.<br>
 That is why I chose you.</p>
 `;
 }
-
-/* 💌 FULL FINAL LETTER (UNCHANGED RESTORE) */
 
 endingBox.innerHTML=`
 <div class="letter">
@@ -408,3 +442,5 @@ bgm.muted=!e.target.checked;
 document.getElementById("soundToggle").onchange=(e)=>{
 clickSound.muted=!e.target.checked;
 };
+
+} // END VN
