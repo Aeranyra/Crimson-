@@ -41,54 +41,35 @@ cursor:pointer;
 }
 
 /* ================= GAME LAYOUT ================= */
-
 #game{
 height:100vh;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-text-align:center;
-padding:20px;
-box-sizing:border-box;
+gap:20px;
 }
 
 
 /* ================= STORY BOX ================= */
 
 #dialogueBox{
-position:absolute;
-top:22%;
-left:50%;
-transform:translateX(-50%);
 width:85%;
 max-width:700px;
 background:rgba(0,0,0,0.65);
-padding:22px;
+padding:20px;
 border:1px solid white;
 }
-
-#storyText{
-width:85%;
-max-width:750px;
-background:rgba(0,0,0,.65);
-padding:25px;
-border:1px solid rgba(255,255,255,.3);
-font-size:24px;
-line-height:1.8;
-margin-bottom:20px;
-white-space:pre-line;
-}
-
 
 
 /* ================= QUESTION ================= */
 
-#questionText{
-font-size:22px;
-font-style:italic;
-margin-bottom:20px;
+#questionBox{
+width:85%;
 max-width:700px;
+background:rgba(0,0,0,0.65);
+padding:20px;
+border:1px solid white;
 }
 
 /* ================= CHOICES ================= */
@@ -96,11 +77,10 @@ max-width:700px;
 #choices{
 display:flex;
 flex-direction:column;
-gap:12px;
+gap:10px;
 width:80%;
 max-width:500px;
 }
-
 .choice-btn{
 padding:14px;
 font-size:18px;
