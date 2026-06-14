@@ -2,10 +2,6 @@ document.addEventListener("DOMContentLoaded", startVN);
 
 function startVN(){
 
-/* =========================
-   ELEMENTS
-========================= */
-
 const storyText=document.getElementById("storyText");
 const questionText=document.getElementById("questionText");
 const choicesBox=document.getElementById("choices");
@@ -13,16 +9,12 @@ const endingBox=document.getElementById("ending");
 
 const bgm=document.getElementById("bgm");
 const clickSound=document.getElementById("clickSound");
-
 const cursor=document.getElementById("cursor");
 const menuScreen=document.getElementById("menuScreen");
 
 let musicStarted=false;
 
-/* =========================
-   BACKGROUNDS
-========================= */
-
+/* BACKGROUNDS */
 const backgrounds=[
 "https://files.catbox.moe/g46u4p.jpg",
 "https://files.catbox.moe/vcdxgl.jpg",
@@ -35,16 +27,11 @@ function setBG(i){
 document.getElementById("bg").style.backgroundImage=`url(${backgrounds[i]})`;
 }
 
-/* =========================
-   CURSOR + BUTTERFLY (RESTORED)
-========================= */
-
+/* CURSOR + BUTTERFLY */
 document.addEventListener("mousemove",(e)=>{
 
-if(cursor){
 cursor.style.left=e.clientX+"px";
 cursor.style.top=e.clientY+"px";
-}
 
 const b=document.createElement("div");
 b.className="cursor-butterfly";
@@ -56,10 +43,7 @@ setTimeout(()=>b.remove(),900);
 
 });
 
-/* =========================
-   MOBILE MUSIC FIX (RESTORED)
-========================= */
-
+/* MUSIC */
 document.body.addEventListener("click",()=>{
 if(!musicStarted){
 bgm.volume=0.4;
@@ -68,13 +52,10 @@ musicStarted=true;
 }
 },{once:true});
 
-/* =========================
-   STORY (UNCHANGED — ONLY POSSESSIVE FIXED)
-========================= */
-
+/* STORY (UNCHANGED CONTENT) */
 const story=[
 
-/* 🌙 PROLOGUE (UNCHANGED FULL) */
+/* PROLOGUE */
 {
 text:`🌙 Prologue — The Garden That Shouldn’t Exist
 
@@ -104,15 +85,11 @@ This story will decide your ending.`,
 question:`Do you choose to step into the unknown?`,
 bg:0,
 choices:[
-{
-text:"Begin",
-note:"🦋 The garden remembers every step.",
-next:1
-}
+{text:"Begin",note:"🦋 The garden remembers every step.",next:1}
 ]
 },
 
-/* 🌹 CHAPTER 1 */
+/* CHAPTERS (UNCHANGED QUESTIONS) */
 {
 text:`🌹 CHAPTER 1 — The Crimson Gate`,
 question:`Do you dare to step beyond the gate?`,
@@ -123,10 +100,9 @@ choices:[
 ]
 },
 
-/* 🦋 CHAPTER 2 */
 {
 text:`🦋 CHAPTER 2 — The Butterfly`,
-question:`If something fragile lands… do you move?`,
+question:`If something fragile lands in your hands… do you move?`,
 bg:2,
 choices:[
 {text:"Stay still 🌹",note:`It trusted you enough to land.`,next:3,path:"true"},
@@ -134,10 +110,9 @@ choices:[
 ]
 },
 
-/* 🌙 CHAPTER 3 */
 {
 text:`🌙 CHAPTER 3 — The Locked Greenhouse`,
-question:`Do you approach what is locked?`,
+question:`Do you dare to disturb what was meant to stay closed?`,
 bg:3,
 choices:[
 {text:"Ask 🔑",note:`Curiosity is dangerous here.`,next:4,path:"neutral"},
@@ -145,10 +120,9 @@ choices:[
 ]
 },
 
-/* 🌹 CHAPTER 4 */
 {
 text:`🌹 CHAPTER 4 — The Wilted Rose`,
-question:`Do you still hold on?`,
+question:`When beauty begins to fade… do you still stay?`,
 bg:4,
 choices:[
 {text:"Keep 🌹",note:`You stayed even when it lost its beauty.`,next:5,path:"true"},
@@ -156,10 +130,9 @@ choices:[
 ]
 },
 
-/* 💌 CHAPTER 5 */
 {
 text:`💌 CHAPTER 5 — The Unfinished Letter`,
-question:`Do you open it?`,
+question:`Would you read something never meant to be finished?`,
 bg:4,
 choices:[
 {text:"Read 🌙",note:`Every word feels like a risk.`,next:6,path:"neutral"},
@@ -167,10 +140,9 @@ choices:[
 ]
 },
 
-/* 🦋 CHAPTER 6 */
 {
 text:`🦋 CHAPTER 6 — The Empty Bench`,
-question:`Do you stay?`,
+question:`Do you choose closeness or distance?`,
 bg:4,
 choices:[
 {text:"Sit beside 💙",note:`The bench was never lonely.`,next:"end",path:"true"},
@@ -180,21 +152,20 @@ choices:[
 
 ];
 
-/* =========================
-   LOAD CHAPTER (FIXED QUESTION DISPLAY)
-========================= */
-
+/* LOAD */
 function loadChapter(i){
 
 endingBox.innerHTML="";
-setBG(story[i].bg);
 
-storyText.textContent=story[i].text;
-questionText.textContent=story[i].question;   // FIXED separation
+const data=story[i];
+setBG(data.bg);
+
+storyText.textContent=data.text;
+questionText.textContent=data.question;
 
 choicesBox.innerHTML="";
 
-story[i].choices.forEach(c=>{
+data.choices.forEach(c=>{
 
 const btn=document.createElement("button");
 btn.className="choice-btn";
@@ -216,7 +187,7 @@ endGame(c.path);
 loadChapter(c.next);
 }
 
-},1300);
+},1200);
 
 };
 
@@ -224,18 +195,12 @@ choicesBox.appendChild(btn);
 });
 }
 
-/* =========================
-   ENDING (POSSESSIVE RESTORED FIXED)
-========================= */
-
+/* ENDING FIXED + POSSESSIVE RESTORED */
 function endGame(path){
 
 endingBox.innerHTML="";
-storyText.innerHTML="";
-choicesBox.innerHTML="";
 
-let title="";
-let text="";
+let title="",text="";
 
 if(path==="neutral"){
 title="💔 Forgotten Ending";
@@ -244,16 +209,7 @@ text=`Some people leave quietly.
 And I never learn how to stop them.`;
 }
 
-/* ✅ FIXED POSSESSIVE ENDING (RESTORED PROPERLY) */
-else if(path==="true" && Math.random()<0.5){
-title="🖤 Possessive Ending";
-text=`You stayed…
-but not freely.
-
-I didn’t let go… even when I should have.`;
-}
-
-else{
+else if(path==="true"){
 title="💙 Devoted Ending";
 text=`You never forced me to open.
 
@@ -262,27 +218,25 @@ You simply stayed until I wanted to.
 That is why I chose you.`;
 }
 
+else{
+title="🖤 Possessive Ending";
+text=`You stayed…
+but I began to hold on too tightly.
+
+And love stopped feeling soft.`;
+}
+
 endingBox.innerHTML=`
 <div class="letter">
-
 <h1>${title}</h1>
-
 <p>${text}</p>
 
-<br>
-
-<button onclick="finalLetter('${path}')">
-💌 Final Letter
-</button>
-
+<button onclick="finalLetter()">💌 Final Letter</button>
 </div>
 `;
 }
 
-/* =========================
-   FINAL LETTER (UNCHANGED FULL RESTORED)
-========================= */
-
+/* FINAL LETTER (FULL RESTORED) */
 window.finalLetter=function(){
 
 endingBox.innerHTML=`
@@ -346,18 +300,13 @@ I think it started here with you—
 with someone patient, soft, and true.
 </p>
 
-<p>
-I love you, my dear husband.
-</p>
+<p>I love you, my dear husband.</p>
 
 </div>
 `;
 };
 
-/* =========================
-   MENU
-========================= */
-
+/* MENU */
 menuScreen.style.display="flex";
 
 document.getElementById("startBtn").onclick=()=>{
