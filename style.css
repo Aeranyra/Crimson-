@@ -4,6 +4,7 @@ overflow:hidden;
 background:black;
 color:white;
 font-family:Arial;
+cursor:none;
 }
 
 /* ================= BACKGROUND ================= */
@@ -61,14 +62,15 @@ padding:22px;
 border:1px solid white;
 }
 
-/* PROLOGUE / STORY TEXT */
 #storyText{
 font-size:24px;
 line-height:1.6;
 margin-bottom:10px;
+white-space:pre-line;
 }
 
-/* QUESTION (SEPARATE LINE) */
+/* ================= QUESTION ================= */
+
 #questionText{
 font-size:20px;
 margin-top:10px;
@@ -173,11 +175,41 @@ background:white;
 position:fixed;
 pointer-events:none;
 mix-blend-mode:difference;
+z-index:9999;
+transform:translate(-50%,-50%);
+}
+
+/* ================= BUTTERFLY TRAIL ================= */
+
+.cursor-butterfly{
+position:fixed;
+pointer-events:none;
+font-size:18px;
+z-index:9998;
+animation:butterflyFade 1s linear forwards;
+transform:translate(-50%,-50%);
+}
+
+@keyframes butterflyFade{
+0%{
+opacity:1;
+transform:translate(-50%,-50%) scale(1);
+}
+100%{
+opacity:0;
+transform:translate(-50%,-80px) scale(0.5);
+}
 }
 
 /* ================= ANIMATION ================= */
 
 @keyframes fadeIn{
-from{opacity:0; transform:translateY(10px);}
-to{opacity:1; transform:translateY(0);}
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
