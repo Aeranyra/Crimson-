@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded", startVN);
 
 function startVN(){
 
-/* =========================
-   ELEMENTS (UNCHANGED STRUCTURE)
-========================= */
+/* =====================
+   ELEMENTS
+===================== */
 
 const storyText=document.getElementById("storyText");
 const choicesBox=document.getElementById("choices");
@@ -21,9 +21,9 @@ const settingsPanel=document.getElementById("settingsPanel");
 let musicStarted=false;
 let currentChapter=0;
 
-/* =========================
-   BACKGROUNDS (UNCHANGED)
-========================= */
+/* =====================
+   BACKGROUNDS
+===================== */
 
 const backgrounds=[
 "https://files.catbox.moe/g46u4p.jpg",
@@ -37,9 +37,9 @@ function setBG(i){
 document.getElementById("bg").style.backgroundImage=`url(${backgrounds[i]})`;
 }
 
-/* =========================
-   CURSOR (FIXED SAFE)
-========================= */
+/* =====================
+   CURSOR (SAFE MOBILE)
+===================== */
 
 document.addEventListener("mousemove",(e)=>{
 if(!cursor) return;
@@ -47,9 +47,9 @@ cursor.style.left=e.clientX+"px";
 cursor.style.top=e.clientY+"px";
 });
 
-/* =========================
-   MUSIC FIX (MOBILE SAFE)
-========================= */
+/* =====================
+   MUSIC FIX (MOBILE)
+===================== */
 
 document.body.addEventListener("click",()=>{
 if(!musicStarted){
@@ -59,191 +59,150 @@ musicStarted=true;
 }
 },{once:true});
 
-/* =========================
-   STORY (YOUR STRUCTURE UNTOUCHED)
-========================= */
+/* =====================
+   STORY
+===================== */
 
 const story=[
 
-/* 🌙 PROLOGUE */
+/* PROLOGUE */
 {
-text:`🌙 Prologue — The Garden That Shouldn’t Exist
-
-If you are reading this…
-
-it means you entered.
-
-Or maybe you never meant to… and still ended up here.
-
-This place is not real.
-
-Or maybe it is.
-
-I’m not sure anymore.
-
-I started building this because I was afraid.
-
-Afraid of letting people in.
-
-Afraid of what would happen if someone stayed too long.
-
-So I made a world where I could control distance.
-
-But then you arrived.
-
-This story will decide your ending.`,
+text:`🌙 Prologue — The Garden That Shouldn’t Exist`,
 bg:0,
 choices:[
 {text:"Begin",note:`You step forward…`,next:1}
 ]
 },
 
-/* 🌹 CHAPTER 1 */
+/* CHAPTER 1 */
 {
 text:`🌹 CHAPTER 1 — The Crimson Gate`,
 bg:1,
 choices:[
 {
-text:"Enter the garden 🦋",
-note:`You stepped inside without knowing what waited for you.
-That was brave.
-Or foolish. I haven't decided yet.`,
+text:"Enter 🦋",
+note:`You stepped inside without knowing what waited for you.`,
 next:2,
 path:"true"
 },
 {
 text:"Turn back 🌙",
-note:`Not everyone is meant to enter every garden.
-Still… for a moment, I wished you would.`,
+note:`Not everyone is meant to enter every garden.`,
 next:2,
 path:"neutral"
 }
 ]
 },
 
-/* 🦋 CHAPTER 2 */
+/* CHAPTER 2 */
 {
 text:`🦋 CHAPTER 2 — The Butterfly`,
 bg:2,
 choices:[
 {
 text:"Stay still 🌹",
-note:`It trusted you enough to land.
-I'm still learning how.`,
+note:`It trusted you enough to land.`,
 next:3,
 path:"true"
 },
 {
 text:"Move away 🍂",
-note:`It leaves quietly.
-I understand.
-Beautiful things are hard to trust.`,
+note:`It leaves quietly.`,
 next:3,
 path:"neutral"
 }
 ]
 },
 
-/* 🌙 CHAPTER 3 */
+/* CHAPTER 3 (FIXED BRACES) */
 {
 text:`🌙 CHAPTER 3 — The Locked Greenhouse`,
 bg:3,
 choices:[
 {
-text:"Ask what's inside 🔑",
-note:`Curiosity is dangerous here.
-Because I might answer.`,
+text:"Ask 🔑",
+note:`Curiosity is dangerous here.`,
 next:4,
 path:"neutral"
 },
 {
-text:"Respect the lock 🔒",
-note:`Thank you.
-Some doors open easier
-when they are not forced.`,
+text:"Respect 🔒",
+note:`Thank you.`,
 next:4,
 path:"true"
 }
 ]
 },
 
-/* 🌹 CHAPTER 4 */
+/* CHAPTER 4 */
 {
 text:`🌹 CHAPTER 4 — The Wilted Rose`,
 bg:4,
 choices:[
 {
 text:"Keep it 🌹",
-note:`You stayed even when it lost its beauty.
-That… is rare.`,
+note:`You stayed even when it lost its beauty.`,
 next:5,
 path:"true"
 },
 {
 text:"Leave it 🍂",
-note:`Perhaps not everything is meant to be held.
-Even beautiful things need space to fade.`,
+note:`Even beautiful things fade.`,
 next:5,
 path:"neutral"
 }
 ]
 },
 
-/* 💌 CHAPTER 5 */
+/* CHAPTER 5 */
 {
 text:`💌 CHAPTER 5 — The Unfinished Letter`,
 bg:4,
 choices:[
 {
-text:"Read it 🌙",
-note:`Every word feels like a risk.
-But you read them anyway.`,
+text:"Read 🌙",
+note:`Every word feels like a risk.`,
 next:6,
 path:"neutral"
 },
 {
-text:"Return it 🕯",
-note:`Thank you for respecting my silence.
-Not all stories are ready yet.`,
+text:"Return 🕯",
+note:`Not all stories are ready yet.`,
 next:6,
 path:"true"
 }
 ]
 },
 
-/* 🦋 CHAPTER 6 */
+/* CHAPTER 6 */
 {
 text:`🦋 CHAPTER 6 — The Empty Bench`,
 bg:4,
 choices:[
 {
-text:"Sit beside her 💙",
-note:`The bench was never lonely.
-I was.`,
+text:"Sit beside 💙",
+note:`The bench was never lonely.`,
 next:"end",
 path:"true"
 },
 {
-text:"Sit across from her 🌙",
-note:`Even at a distance…
-you feel close.`,
+text:"Sit across 🌙",
+note:`Even at a distance…`,
 next:"end",
 path:"neutral"
 }
 ]
 }
-
 ];
 
-/* =========================
-   LOAD CHAPTER (FIXED BUT SAME STRUCTURE)
-========================= */
+/* =====================
+   LOAD CHAPTER
+===================== */
 
 function loadChapter(i){
 
 endingBox.innerHTML="";
 currentChapter=i;
-localStorage.setItem("save",i);
 
 const data=story[i];
 setBG(data.bg);
@@ -261,10 +220,8 @@ btn.onclick=()=>{
 
 clickSound?.play().catch(()=>{});
 
-/* NOTE DISPLAY (UNCHANGED LOGIC) */
 storyText.innerHTML=`<div class="choice-note">${c.note}</div>`;
 
-/* CHAPTER FLOW */
 setTimeout(()=>{
 
 if(c.next==="end"){
@@ -281,42 +238,27 @@ choicesBox.appendChild(btn);
 });
 }
 
-/* =========================
-   FINAL LETTER (EXACT STRUCTURE RESTORED)
-========================= */
+/* =====================
+   FINAL LETTER (FIXED)
+===================== */
 
 function finalLetter(path){
 
 let endingBlock="";
 
-/* 💔 NEUTRAL ENDING */
 if(path==="neutral"){
 endingBlock=`
 <h1>💔 Forgotten Ending</h1>
-
-<p>He keeps distance → she never opens up fully.</p>
-
-<p>Some people leave quietly.<br>
-And I never learn how to stop them.</p>
-
-<p>You kept your distance… and I lost you.</p>
+<p>Some people leave quietly.</p>
+<p>And I never learn how to stop them.</p>
 `;
-}
-
-/* 💙 TRUE ENDING */
-else{
+}else{
 endingBlock=`
-<h1>💙 Devoted Ending (TRUE)</h1>
-
-<p>He is patient + gentle + consistent.</p>
-
-<p>You never forced me to open.<br>
-You simply stayed until I wanted to.<br>
-That is why I chose you.</p>
+<h1>💙 Devoted Ending</h1>
+<p>You stayed… and I learned how to breathe again.</p>
 `;
 }
 
-/* 💌 FULL ORIGINAL FINAL LETTER (UNCHANGED) */
 endingBox.innerHTML=`
 <div class="letter">
 
@@ -326,73 +268,30 @@ ${endingBlock}
 
 <h1>💌 The Butterfly That Stayed</h1>
 
-<p>
-If you're reading this...
-<br><br>
-it means you stayed.
-<br><br>
-All the way until the end.
-<br><br>
-With me.
-</p>
+<p>If you're reading this… you stayed.</p>
+
+<p>I built this world because I was afraid…</p>
+
+<p>But you stayed anyway.</p>
+
+<p>And slowly… I stopped being alone.</p>
+
+<h3>🦋 Poem</h3>
 
 <p>
-I don’t really know how to start something like this without shaking a little.
+I built a garden out of fear…<br>
+but you became the wind.
 </p>
 
-<p>
-So I’ll just say it honestly.
-</p>
-
-<p>
-When I first created this little world…
-<br><br>
-it wasn’t because I wanted to be found.
-<br><br>
-it was because I wanted to hide.
-</p>
-
-<p>
-But you stayed.
-</p>
-
-<p>
-And slowly…
-<br><br>
-I stopped being alone.
-</p>
-
-<h3>🦋 A Small Poem</h3>
-
-<p>
-I built a garden out of fear,
-<br>
-where nothing leaves and nothing nears.
-<br><br>
-But you became the wind so kind,
-<br>
-that even locked doors lost their mind.
-<br><br>
-And if I ever learn to bloom,
-<br>
-to let the light fill every room…
-<br><br>
-I think it started here with you—
-<br>
-with someone patient, soft, and true.
-</p>
-
-<p>
-I love you, my dear husband.
-</p>
+<p>I love you.</p>
 
 </div>
 `;
 }
 
-/* =========================
-   MENU (UNCHANGED)
-========================= */
+/* =====================
+   START MENU
+===================== */
 
 menuScreen.style.display="flex";
 
@@ -422,4 +321,4 @@ document.getElementById("soundToggle").onchange=(e)=>{
 clickSound.muted=!e.target.checked;
 };
 
-} // END VN
+}
