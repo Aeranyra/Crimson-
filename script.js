@@ -1,18 +1,17 @@
+const storyText=document.getElementById("storyText");
+const choicesBox=document.getElementById("choices");
+const endingBox=document.getElementById("ending");
 
-const storyText = document.getElementById("storyText");
-const choicesBox = document.getElementById("choices");
-const endingBox = document.getElementById("ending");
+const bgm=document.getElementById("bgm");
+const clickSound=document.getElementById("clickSound");
 
-const bgm = document.getElementById("bgm");
-const clickSound = document.getElementById("clickSound");
-
-let musicStarted = false;
+let musicStarted=false;
 
 /* =========================
    BACKGROUNDS
 ========================= */
 
-const backgrounds = [
+const backgrounds=[
 "https://files.catbox.moe/g46u4p.jpg",
 "https://files.catbox.moe/vcdxgl.jpg",
 "https://files.catbox.moe/yqcxpl.jpg",
@@ -21,62 +20,37 @@ const backgrounds = [
 ];
 
 function setBG(i){
-document.getElementById("bg").style.backgroundImage =
+document.getElementById("bg").style.backgroundImage=
 `url(${backgrounds[i]})`;
 }
 
 /* =========================
-   CURSOR TRAIL
+   CURSOR
 ========================= */
 
-const cursor = document.getElementById("cursor");
+const cursor=document.getElementById("cursor");
 
 document.addEventListener("mousemove",(e)=>{
 
-cursor.style.left = e.clientX + "px";
-cursor.style.top = e.clientY + "px";
+cursor.style.left=e.clientX+"px";
+cursor.style.top=e.clientY+"px";
 
-const dot = document.createElement("div");
-dot.className = "trail";
-dot.style.left = e.clientX + "px";
-dot.style.top = e.clientY + "px";
-
+const dot=document.createElement("div");
+dot.className="trail";
+dot.style.left=e.clientX+"px";
+dot.style.top=e.clientY+"px";
 document.body.appendChild(dot);
 setTimeout(()=>dot.remove(),600);
 
 });
 
 /* =========================
-   TYPEWRITER (optional simple)
+   STORY (FULL)
 ========================= */
 
-function typeText(text, callback){
+const story=[
 
-storyText.textContent = "";
-let i = 0;
-
-const speed = 15;
-
-function type(){
-if(i < text.length){
-storyText.textContent += text.charAt(i);
-i++;
-setTimeout(type, speed);
-}else{
-if(callback) callback();
-}
-}
-
-type();
-}
-
-/* =========================
-   STORY — PART 1 (1–3 + PROLOGUE)
-========================= */
-
-const story = [
-
-/* 🌙 PROLOGUE */
+/* PROLOGUE */
 {
 text:`🌙 Prologue — The Garden That Shouldn’t Exist
 
@@ -104,15 +78,10 @@ But then you arrived.
 
 This story will decide your ending.`,
 bg:0,
-choices:[{
-text:"Begin",
-note:`You step forward…
-Even if your heart already knows the ending.`,
-next:1
-}]
+choices:[{text:"Begin",note:`You step forward…`,next:1}]
 },
 
-/* 🌹 CHAPTER 1 */
+/* CHAPTER 1 */
 {
 text:`🌹 CHAPTER 1 — The Crimson Gate`,
 bg:1,
@@ -135,7 +104,7 @@ path:"neutral"
 ]
 },
 
-/* 🦋 CHAPTER 2 */
+/* CHAPTER 2 */
 {
 text:`🦋 CHAPTER 2 — The Butterfly`,
 bg:2,
@@ -158,7 +127,7 @@ path:"neutral"
 ]
 },
 
-/* 🌙 CHAPTER 3 */
+/* CHAPTER 3 */
 {
 text:`🌙 CHAPTER 3 — The Locked Greenhouse`,
 bg:3,
@@ -179,67 +148,9 @@ next:4,
 path:"true"
 }
 ]
-}
-];
+},
 
-/* =========================
-   LOAD CHAPTER
-========================= */
-
-function loadChapter(i){
-
-endingBox.innerHTML = "";
-
-const data = story[i];
-
-if(data.bg !== undefined){
-setBG(data.bg);
-}
-
-storyText.textContent = data.text;
-choicesBox.innerHTML = "";
-
-data.choices.forEach(choice=>{
-
-const btn = document.createElement("button");
-btn.className = "choice-btn";
-btn.textContent = choice.text;
-
-btn.onclick = ()=>{
-
-clickSound.currentTime = 0;
-clickSound.play();
-
-if(!musicStarted){
-bgm.volume = 0.4;
-bgm.play();
-musicStarted = true;
-}
-
-storyText.innerHTML = `<div class="choice-note">${choice.note}</div>`;
-
-setTimeout(()=>{
-loadChapter(choice.next);
-},1500);
-
-};
-
-choicesBox.appendChild(btn);
-
-});
-
-}
-
-/* START */
-loadChapter(0);
-
-/* =========================
-   CONTINUATION STORY (4–6)
-========================= */
-
-story.push(
-
-/* 🌹 CHAPTER 4 */
+/* CHAPTER 4 */
 {
 text:`🌹 CHAPTER 4 — The Wilted Rose`,
 bg:4,
@@ -261,7 +172,7 @@ path:"neutral"
 ]
 },
 
-/* 💌 CHAPTER 5 */
+/* CHAPTER 5 */
 {
 text:`💌 CHAPTER 5 — The Unfinished Letter`,
 bg:4,
@@ -283,7 +194,7 @@ path:"true"
 ]
 },
 
-/* 🦋 CHAPTER 6 */
+/* CHAPTER 6 */
 {
 text:`🦋 CHAPTER 6 — The Empty Bench`,
 bg:4,
@@ -304,19 +215,68 @@ path:"neutral"
 }
 ]
 }
-
-);
+];
 
 /* =========================
-   FINAL LETTER + ENDINGS
+   LOAD CHAPTER
 ========================= */
 
+function loadChapter(i){
+
+endingBox.innerHTML="";
+
+const data=story[i];
+
+setBG(data.bg);
+
+storyText.textContent=data.text;
+choicesBox.innerHTML="";
+
+data.choices.forEach(choice=>{
+
+const btn=document.createElement("button");
+btn.className="choice-btn";
+btn.textContent=choice.text;
+
+btn.onclick=()=>{
+
+clickSound.currentTime=0;
+clickSound.play();
+
+if(!musicStarted){
+bgm.volume=0.4;
+bgm.play();
+musicStarted=true;
+}
+
+storyText.innerHTML=`<div class="choice-note">${choice.note}</div>`;
+
+setTimeout(()=>{
+
+if(choice.next==="end"){
+finalLetter(choice.path);
+}else{
+loadChapter(choice.next);
+}
+
+},1500);
+
+};
+
+choicesBox.appendChild(btn);
+
+});
+
+}
+
+/* =========================
+   FINAL LETTER (FULL RESTORED)
+========================= */
 function finalLetter(path){
 
 let endingBlock="";
 
-/* 🌹 ENDINGS (YOUR FULL ORIGINAL BLOCK) */
-
+/* 🌹 ENDINGS (UNCHANGED) */
 if(path==="neutral"){
 
 endingBlock=`
@@ -352,7 +312,7 @@ That is why I chose you.</p>
 `;
 }
 
-/* 💌 FULL FINAL LETTER */
+/* 💌 FULL ORIGINAL FINAL LETTER — EXACT RESTORE */
 
 endingBox.innerHTML = `
 <div class="letter">
