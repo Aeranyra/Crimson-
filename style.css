@@ -13,75 +13,57 @@ background-size:cover;
 background-position:center;
 z-index:-1;
 transition:1s ease;
-filter:brightness(0.6);
+filter:brightness(0.7);
 }
 
-/* MENU */
 #menuScreen{
 position:fixed;
 inset:0;
 display:flex;
-flex-direction:column;
 justify-content:center;
 align-items:center;
-gap:12px;
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.7);
 z-index:10;
 }
 
-button{
-padding:10px 20px;
-background:black;
-color:white;
-border:1px solid white;
-cursor:pointer;
+#game{
+position:relative;
+width:100%;
+height:100vh;
 }
 
-/* STORY BOX */
-#storyBox{
+#dialogueBox{
 position:absolute;
-top:20%;
+top:25%;
 left:50%;
 transform:translateX(-50%);
-width:80%;
-max-width:700px;
-background:rgba(0,0,0,0.5);
-padding:15px;
+width:85%;
+max-width:650px;
+background:rgba(0,0,0,0.6);
+padding:20px;
 border:1px solid white;
 }
 
 #storyText{
 font-size:18px;
-line-height:1.6;
-white-space:pre-wrap;
+line-height:1.5;
 }
 
-/* QUESTION BOX */
-#questionBox{
-position:absolute;
-top:50%;
-left:50%;
-transform:translateX(-50%);
-width:80%;
-max-width:700px;
-background:rgba(0,0,0,0.7);
-padding:10px;
-border:1px solid white;
-text-align:center;
-font-size:18px;
+#questionText{
+margin-top:10px;
+font-size:16px;
+color:#ccc;
 }
 
-/* CHOICES */
 #choices{
 position:absolute;
-top:70%;
+top:65%;
 left:50%;
 transform:translateX(-50%);
 display:flex;
 flex-direction:column;
 gap:10px;
 width:80%;
-max-width:500px;
 }
 
 .choice-btn{
@@ -92,24 +74,15 @@ border:1px solid white;
 cursor:pointer;
 }
 
-/* ENDING */
 #ending{
 position:absolute;
-inset:0;
-display:flex;
-justify-content:center;
-align-items:center;
-background:rgba(0,0,0,0.8);
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:80%;
+max-width:600px;
 }
 
-.letter{
-max-width:700px;
-padding:20px;
-border:1px solid white;
-background:black;
-}
-
-/* CURSOR */
 #cursor{
 width:12px;
 height:12px;
@@ -118,17 +91,4 @@ background:white;
 position:fixed;
 pointer-events:none;
 mix-blend-mode:difference;
-}
-
-/* BUTTERFLY TRAIL */
-.cursor-butterfly{
-position:fixed;
-font-size:14px;
-pointer-events:none;
-animation:fade 1s linear forwards;
-}
-
-@keyframes fade{
-0%{opacity:1; transform:scale(1);}
-100%{opacity:0; transform:scale(2);}
 }
