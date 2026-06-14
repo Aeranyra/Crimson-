@@ -2,10 +2,6 @@ document.addEventListener("DOMContentLoaded", startVN);
 
 function startVN(){
 
-/* =========================
-   ELEMENTS
-========================= */
-
 const storyText=document.getElementById("storyText");
 const choicesBox=document.getElementById("choices");
 const endingBox=document.getElementById("ending");
@@ -20,10 +16,7 @@ const settingsPanel=document.getElementById("settingsPanel");
 
 let musicStarted=false;
 
-/* =========================
-   BACKGROUNDS
-========================= */
-
+/* BACKGROUNDS */
 const backgrounds=[
 "https://files.catbox.moe/g46u4p.jpg",
 "https://files.catbox.moe/vcdxgl.jpg",
@@ -36,35 +29,40 @@ function setBG(i){
 document.getElementById("bg").style.backgroundImage=`url(${backgrounds[i]})`;
 }
 
-/* =========================
-   CURSOR
-========================= */
-
+/* CURSOR */
 document.addEventListener("mousemove",(e)=>{
 if(!cursor) return;
 cursor.style.left=e.clientX+"px";
 cursor.style.top=e.clientY+"px";
 });
 
-/* =========================
-   MOBILE AUDIO FIX
-========================= */
-
-document.body.addEventListener("click",()=>{
+/* MOBILE AUDIO FIX */
+function enableMusic(){
 if(!musicStarted){
 bgm.volume=0.4;
 bgm.play().catch(()=>{});
 musicStarted=true;
 }
-},{once:true});
+}
+document.addEventListener("click", enableMusic, {once:true});
+document.addEventListener("touchstart", enableMusic, {once:true});
 
-/* =========================
-   STORY (CLEAN FULL VERSION)
-========================= */
+/* SAFE CLICK SOUND */
+function playClick(){
+if(clickSound){
+clickSound.currentTime=0;
+clickSound.play().catch(()=>{});
+}
+}
 
+/* SAVE SYSTEM FIX */
+function save(i){
+localStorage.setItem("save", i);
+}
+
+/* STORY (UNCHANGED EXACTLY) */
 const story=[
 
-/* 🌙 PROLOGUE */
 {
 text:`🌙 Prologue — The Garden That Shouldn’t Exist
 
@@ -91,180 +89,103 @@ So I made a world where I could control distance.
 But then you arrived.
 
 This story will decide your ending.`,
-
 question:`Do you choose to enter this world?`,
 bg:0,
-
 choices:[
-{
-text:"Begin",
-note:`🦋 The garden remembers every step.`,
-next:1
-}
+{text:"Begin",note:`🦋 The garden remembers every step.`,next:1}
 ]
 },
 
-/* 🌹 CHAPTER 1 */
 {
 text:`🌹 CHAPTER 1 — The Crimson Gate`,
 question:`Do you choose to step into the unknown?`,
 bg:1,
-
 choices:[
-{
-text:"Enter the garden 🦋",
-note:`You stepped inside without knowing what waited for you.
+{text:"Enter the garden 🦋",note:`You stepped inside without knowing what waited for you.
 That was brave.
-Or foolish. I haven't decided yet.`,
-next:2,
-path:"true"
-},
-{
-text:"Turn back 🌙",
-note:`Not everyone is meant to enter every garden.
-Still… for a moment, I wished you would.`,
-next:2,
-path:"neutral"
-}
+Or foolish. I haven't decided yet.`,next:2,path:"true"},
+{text:"Turn back 🌙",note:`Not everyone is meant to enter every garden.
+Still… for a moment, I wished you would.`,next:2,path:"neutral"}
 ]
 },
 
-/* 🦋 CHAPTER 2 */
 {
 text:`🦋 CHAPTER 2 — The Butterfly`,
 question:`Do you trust what is fragile?`,
 bg:2,
-
 choices:[
-{
-text:"Stay still 🌹",
-note:`It trusted you enough to land.
-I'm still learning how.`,
-next:3,
-path:"true"
-},
-{
-text:"Move away 🍂",
-note:`It leaves quietly.
+{text:"Stay still 🌹",note:`It trusted you enough to land.
+I'm still learning how.`,next:3,path:"true"},
+{text:"Move away 🍂",note:`It leaves quietly.
 I understand.
-Beautiful things are hard to trust.`,
-next:3,
-path:"neutral"
-}
+Beautiful things are hard to trust.`,next:3,path:"neutral"}
 ]
 },
 
-/* 🌙 CHAPTER 3 */
 {
 text:`🌙 CHAPTER 3 — The Locked Greenhouse`,
 question:`Do you want to know what is inside?`,
 bg:3,
-
 choices:[
-{
-text:"Ask what's inside 🔑",
-note:`Curiosity is dangerous here.
-Because I might answer.`,
-next:4,
-path:"neutral"
-},
-{
-text:"Respect the lock 🔒",
-note:`Thank you.
-Some doors open easier when they are not forced.`,
-next:4,
-path:"true"
-}
+{text:"Ask what's inside 🔑",note:`Curiosity is dangerous here.
+Because I might answer.`,next:4,path:"neutral"},
+{text:"Respect the lock 🔒",note:`Thank you.
+Some doors open easier when they are not forced.`,next:4,path:"true"}
 ]
 },
 
-/* 🌹 CHAPTER 4 */
 {
 text:`🌹 CHAPTER 4 — The Wilted Rose`,
 question:`Do you still hold on when something fades?`,
 bg:4,
-
 choices:[
-{
-text:"Keep it 🌹",
-note:`You stayed even when it lost its beauty.
-That… is rare.`,
-next:5,
-path:"true"
-},
-{
-text:"Leave it 🍂",
-note:`Perhaps not everything is meant to be held.
-Even beautiful things need space to fade.`,
-next:5,
-path:"neutral"
-}
+{text:"Keep it 🌹",note:`You stayed even when it lost its beauty.
+That… is rare.`,next:5,path:"true"},
+{text:"Leave it 🍂",note:`Perhaps not everything is meant to be held.
+Even beautiful things need space to fade.`,next:5,path:"neutral"}
 ]
 },
 
-/* 💌 CHAPTER 5 */
 {
 text:`💌 CHAPTER 5 — The Unfinished Letter`,
 question:`Do you open something unfinished?`,
 bg:4,
-
 choices:[
-{
-text:"Read it 🌙",
-note:`Every word feels like a risk.
-But you read them anyway.`,
-next:6,
-path:"neutral"
-},
-{
-text:"Return it 🕯",
-note:`Thank you for respecting my silence.
-Not all stories are ready yet.`,
-next:6,
-path:"true"
-}
+{text:"Read it 🌙",note:`Every word feels like a risk.
+But you read them anyway.`,next:6,path:"neutral"},
+{text:"Return it 🕯",note:`Thank you for respecting my silence.
+Not all stories are ready yet.`,next:6,path:"true"}
 ]
 },
 
-/* 🦋 CHAPTER 6 */
 {
 text:`🦋 CHAPTER 6 — The Empty Bench`,
 question:`Do you choose closeness or distance?`,
 bg:4,
-
 choices:[
-{
-text:"Sit beside 💙",
-note:`The bench was never lonely.
-I was.`,
-next:"end",
-path:"true"
-},
-{
-text:"Sit across 🌙",
-note:`Even at a distance…
-you feel close.`,
-next:"end",
-path:"neutral"
-}
+{text:"Sit beside 💙",note:`The bench was never lonely.
+I was.`,next:"end",path:"true"},
+{text:"Sit across 🌙",note:`Even at a distance…
+you feel close.`,next:"end",path:"neutral"}
 ]
 }
 
 ];
 
-/* =========================
-   LOAD CHAPTER
-========================= */
-
+/* LOAD CHAPTER */
 function loadChapter(i){
+
+save(i);
 
 endingBox.innerHTML="";
 
 const data=story[i];
+
 setBG(data.bg);
 
 storyText.textContent=data.text;
 choicesBox.innerHTML="";
+questionText.textContent=data.question||"";
 
 data.choices.forEach(c=>{
 
@@ -274,9 +195,10 @@ btn.textContent=c.text;
 
 btn.onclick=()=>{
 
-clickSound?.play().catch(()=>{});
+playClick();
 
 storyText.innerHTML=`<div class="choice-note">${c.note}</div>`;
+questionText.textContent="";
 
 setTimeout(()=>{
 
@@ -286,7 +208,7 @@ endGame(c.path);
 loadChapter(c.next);
 }
 
-},1300);
+},1200);
 
 };
 
@@ -294,18 +216,14 @@ choicesBox.appendChild(btn);
 });
 }
 
-/* =========================
-   ENDING (NORMAL ONLY)
-========================= */
-
+/* ENDING (FIXED ONLY, NO STORY CHANGE) */
 function endGame(path){
 
 endingBox.innerHTML="";
 storyText.innerHTML="";
 choicesBox.innerHTML="";
 
-let title="";
-let text="";
+let title="",text="";
 
 if(path==="neutral"){
 title="💔 Forgotten Ending";
@@ -326,12 +244,11 @@ endingBox.innerHTML=`
 <div class="letter">
 
 <h1>${title}</h1>
-
 <p>${text}</p>
 
 <br>
 
-<button onclick="finalLetter('${path}')">
+<button onclick="finalLetter()">
 💌 Final Letter
 </button>
 
@@ -339,9 +256,7 @@ endingBox.innerHTML=`
 `;
 }
 
-/* =========================
-   FINAL LETTER
-========================= */
+/* FINAL LETTER (UNCHANGED) */
 window.finalLetter=function(){
 
 endingBox.innerHTML=`
@@ -388,13 +303,16 @@ I stopped being alone.
 <h3>🦋 A Small Poem</h3>
 
 <p>
-I built a garden out of fear,<br>
+I built a garden out of fear,
+<br>
 where nothing leaves and nothing nears.
 <br><br>
-But you became the wind so kind,<br>
+But you became the wind so kind,
+<br>
 that even locked doors lost their mind.
 <br><br>
-And if I ever learn to bloom,<br>
+And if I ever learn to bloom,
+<br>
 to let the light fill every room…
 <br><br>
 I think it started here with you—
@@ -408,12 +326,9 @@ I love you, my dear husband.
 
 </div>
 `;
-}
+};
 
-/* =========================
-   MENU
-========================= */
-
+/* MENU */
 menuScreen.style.display="flex";
 
 document.getElementById("startBtn").onclick=()=>{
@@ -423,7 +338,7 @@ loadChapter(0);
 
 document.getElementById("continueBtn").onclick=()=>{
 menuScreen.style.display="none";
-loadChapter(parseInt(localStorage.getItem("save")||0));
+loadChapter(Number(localStorage.getItem("save")||0));
 };
 
 document.getElementById("settingsBtn").onclick=()=>{
