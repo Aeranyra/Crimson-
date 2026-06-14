@@ -1,17 +1,19 @@
-const storyText=document.getElementById("storyText");
-const choicesBox=document.getElementById("choices");
-const endingBox=document.getElementById("ending");
+let affection = 0;
+let control = 0;
+let typing = false;
 
-const bgm=document.getElementById("bgm");
-const clickSound=document.getElementById("clickSound");
+const storyText = document.getElementById("storyText");
+const choicesBox = document.getElementById("choices");
+const endingBox = document.getElementById("ending");
 
-let musicStarted=false;
+const bgm = document.getElementById("bgm");
+const clickSound = document.getElementById("clickSound");
 
-/* =========================
-   BACKGROUNDS
-========================= */
+let musicStarted = false;
 
-const backgrounds=[
+/* ===================== BACKGROUNDS ===================== */
+
+const backgrounds = [
 "https://files.catbox.moe/g46u4p.jpg",
 "https://files.catbox.moe/vcdxgl.jpg",
 "https://files.catbox.moe/yqcxpl.jpg",
@@ -20,37 +22,50 @@ const backgrounds=[
 ];
 
 function setBG(i){
-document.getElementById("bg").style.backgroundImage=
-`url(${backgrounds[i]})`;
+    const bg = document.getElementById("bg");
+    if(!bg) return;
+
+    bg.style.backgroundImage = `url(${backgrounds[i]})`;
+    bg.style.backgroundSize = "cover";
+    bg.style.backgroundPosition = "center";
 }
 
-/* =========================
-   CURSOR
-========================= */
+/* ===================== CURSOR ===================== */
 
-const cursor=document.getElementById("cursor");
+const cursor = document.getElementById("cursor");
 
-document.addEventListener("mousemove",(e)=>{
+document.addEventListener("mousemove", (e) => {
+    if(!cursor) return;
 
-cursor.style.left=e.clientX+"px";
-cursor.style.top=e.clientY+"px";
+    cursor.style.left = e.clientX + "px";
+    cursor.style.top = e.clientY + "px";
 
-const dot=document.createElement("div");
-dot.className="trail";
-dot.style.left=e.clientX+"px";
-dot.style.top=e.clientY+"px";
-document.body.appendChild(dot);
-setTimeout(()=>dot.remove(),600);
+    const dot = document.createElement("div");
+    dot.className = "trail";
+    dot.style.left = e.clientX + "px";
+    dot.style.top = e.clientY + "px";
 
+    document.body.appendChild(dot);
+    setTimeout(() => dot.remove(), 600);
 });
 
-/* =========================
-   STORY (FULL)
-========================= */
+/* ===================== AUDIO UNLOCK (MOBILE FIX) ===================== */
 
-const story=[
+function unlockAudio(){
+    if(musicStarted) return;
 
-/* PROLOGUE */
+    bgm.volume = 0.4;
+    bgm.play().catch(()=>{});
+
+    musicStarted = true;
+}
+
+document.addEventListener("click", unlockAudio, { once:true });
+
+/* ===================== STORY ===================== */
+
+const story = [
+
 {
 text:`🌙 Prologue — The Garden That Shouldn’t Exist
 
@@ -78,10 +93,11 @@ But then you arrived.
 
 This story will decide your ending.`,
 bg:0,
-choices:[{text:"Begin",note:`You step forward…`,next:1}]
+choices:[
+{ text:"Begin", note:"You step forward…", next:1 }
+]
 },
 
-/* CHAPTER 1 */
 {
 text:`🌹 CHAPTER 1 — The Crimson Gate`,
 bg:1,
@@ -104,7 +120,6 @@ path:"neutral"
 ]
 },
 
-/* CHAPTER 2 */
 {
 text:`🦋 CHAPTER 2 — The Butterfly`,
 bg:2,
@@ -127,7 +142,6 @@ path:"neutral"
 ]
 },
 
-/* CHAPTER 3 */
 {
 text:`🌙 CHAPTER 3 — The Locked Greenhouse`,
 bg:3,
@@ -150,7 +164,6 @@ path:"true"
 ]
 },
 
-/* CHAPTER 4 */
 {
 text:`🌹 CHAPTER 4 — The Wilted Rose`,
 bg:4,
@@ -172,7 +185,6 @@ path:"neutral"
 ]
 },
 
-/* CHAPTER 5 */
 {
 text:`💌 CHAPTER 5 — The Unfinished Letter`,
 bg:4,
@@ -194,7 +206,6 @@ path:"true"
 ]
 },
 
-/* CHAPTER 6 */
 {
 text:`🦋 CHAPTER 6 — The Empty Bench`,
 bg:4,
@@ -215,103 +226,91 @@ path:"neutral"
 }
 ]
 }
+
 ];
 
-/* =========================
-   LOAD CHAPTER
-========================= */
+/* ===================== LOAD CHAPTER ===================== */
 
 function loadChapter(i){
 
-endingBox.innerHTML="";
+endingBox.innerHTML = "";
 
-const data=story[i];
+const data = story[i];
+if(!data) return;
 
 setBG(data.bg);
 
-storyText.textContent=data.text;
-choicesBox.innerHTML="";
+storyText.textContent = data.text;
+choicesBox.innerHTML = "";
 
-data.choices.forEach(choice=>{
+data.choices.forEach(choice => {
 
-const btn=document.createElement("button");
-btn.className="choice-btn";
-btn.textContent=choice.text;
+const btn = document.createElement("button");
+btn.className = "choice-btn";
+btn.textContent = choice.text;
 
-btn.onclick=()=>{
+btn.addEventListener("click", () => {
 
-clickSound.currentTime=0;
-clickSound.play();
+clickSound.currentTime = 0;
+clickSound.play().catch(()=>{});
 
-if(!musicStarted){
-bgm.volume=0.4;
-bgm.play();
-musicStarted=true;
-}
+storyText.innerHTML =
+`<div class="choice-note">${choice.note}</div>`;
 
-storyText.innerHTML=`<div class="choice-note">${choice.note}</div>`;
+setTimeout(() => {
 
-setTimeout(()=>{
-
-if(choice.next==="end"){
+if(choice.next === "end"){
 finalLetter(choice.path);
-}else{
+} else {
 loadChapter(choice.next);
 }
 
-},1500);
+}, 1500);
 
-};
+});
 
 choicesBox.appendChild(btn);
 
 });
-
 }
 
-/* =========================
-   FINAL LETTER (FULL RESTORED)
-========================= */
+/* ===================== FINAL LETTER ===================== */
+
 function finalLetter(path){
 
-let endingBlock="";
+let endingBlock = "";
 
-/* 🌹 ENDINGS (UNCHANGED) */
-if(path==="neutral"){
+if(path === "neutral"){
 
-endingBlock=`
+endingBlock = `
 <h1>💔 Forgotten Ending</h1>
 
 <p>He keeps distance → she never opens up fully.</p>
 
 <p>Some people leave quietly.<br>
 And I never learn how to stop them.</p>
+
 <hr>
 
 <h1>🖤 Possessive Ending</h1>
 
-<p>He forces closeness → fear becomes control.</p>
-
 <p>You stayed… but I no longer recognize freedom.<br>
 Only closeness that feels like chains.</p>
 `;
-}
 
-else{
+} else {
 
-endingBlock=`
+endingBlock = `
 <h1>💙 Devoted Ending (TRUE)</h1>
 
-<p>He is patient + g<br>
-entle + consistent.</p>
+<p>He is patient + gentle + consistent.</p>
 
 <p>You never forced me to open.<br>
 You simply stayed until I wanted to.<br>
 That is why I chose you.</p>
 `;
-}
 
-/* 💌 FULL ORIGINAL FINAL LETTER — EXACT RESTORE */
+}
 
 endingBox.innerHTML = `
 <div class="letter">
@@ -386,10 +385,10 @@ I love you, my dear husband.
 `;
 }
 
-/* =========================
-   ⭐ FIX ADDED ONLY (DO NOT REMOVE)
-========================= */
+/* ===================== START GAME (MOBILE SAFE) ===================== */
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadChapter(0);
-});
+function initGame(){
+loadChapter(0);
+}
+
+window.addEventListener("load", initGame);
