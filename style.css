@@ -60,15 +60,23 @@ padding:22px;
 border:1px solid white;
 }
 
+/* ================= STORY TEXT (BIGGER + READABLE) ================= */
+
+#storyText{
+font-size:28px;
+line-height:1.8;
+margin-bottom:10px;
+word-break:break-word;
+}
 
 /* ================QUESTION ================= */
-
-#questionBox{
-width:85%;
-max-width:700px;
-background:rgba(0,0,0,0.55);
-padding:12px;
-text-align:center;
+#questionText{
+font-size:22px;
+line-height:1.6;
+margin-top:10px;
+margin-bottom:15px;
+opacity:0.95;
+font-style:italic;
 }
 
 /* ================= CHOICES ================= */
@@ -80,20 +88,40 @@ width:80%;
 max-width:500px;
 }=
 .choice-btn{
-padding:14px;
-font-size:18px;
+padding:14px 16px;
+font-size:20px;
 cursor:pointer;
-background:rgba(0,0,0,.7);
+background:rgba(0,0,0,.75);
 color:white;
 border:1px solid rgba(255,255,255,.4);
 }
 
 .choice-note{
-font-size:22px;
+font-size:24px;
 line-height:1.8;
 white-space:pre-line;
 }
+/* ================= MOBILE RESPONSIVE ================= */
 
+@media (max-width:600px){
+
+#storyText{
+font-size:22px;
+}
+
+#questionText{
+font-size:18px;
+}
+
+.choice-btn{
+font-size:18px;
+padding:12px;
+}
+
+.choice-note{
+font-size:20px;
+}
+}
 /* ================= ENDING ================= */
 
 #ending{
@@ -199,5 +227,61 @@ transform:translateY(10px);
 to{
 opacity:1;
 transform:translateY(0);
+}
+}
+
+/* ================= ENDING SCENE OVERLAY ================= */
+
+#endingScene{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.85);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+animation:fadeIn 1s ease;
+}
+
+.endingContent{
+width:90%;
+max-width:700px;
+text-align:center;
+animation:fadeInUp 1.2s ease;
+}
+
+@keyframes fadeInUp{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* soft glow letter */
+.endingContent .letter{
+box-shadow:0 0 35px rgba(255,255,255,0.15);
+}
+
+/* optional floating butterflies */
+.bfly{
+position:fixed;
+font-size:18px;
+pointer-events:none;
+animation:fly 2s linear forwards;
+z-index:9998;
+}
+
+@keyframes fly{
+0%{
+opacity:1;
+transform:translateY(0) scale(1);
+}
+100%{
+opacity:0;
+transform:translateY(-120px) scale(0.5);
 }
 }
