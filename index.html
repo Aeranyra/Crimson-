@@ -9,31 +9,23 @@
 
 <body>
 
-<!-- BACKGROUND -->
 <div id="bg"></div>
 
 <!-- MENU -->
 <div id="menuScreen">
   <div class="menu-title">🌙 Crimson Butterfly</div>
 
-  <button id="startBtn" class="menu-btn">Start</button>
-  <button id="continueBtn" class="menu-btn">Continue</button>
-  <button id="settingsBtn" class="menu-btn">Settings</button>
+  <button id="startBtn">Start</button>
+  <button id="continueBtn">Continue</button>
+  <button id="settingsBtn">Settings</button>
 </div>
 
 <!-- SETTINGS -->
 <div id="settingsPanel" class="hidden">
   <h2>Settings</h2>
 
-  <label>
-    Music
-    <input type="checkbox" id="musicToggle" checked>
-  </label>
-
-  <label>
-    Sound
-    <input type="checkbox" id="soundToggle" checked>
-  </label>
+  <label>Music <input type="checkbox" id="musicToggle" checked></label>
+  <label>Sound <input type="checkbox" id="soundToggle" checked></label>
 
   <button id="closeSettings">Close</button>
 </div>
@@ -56,7 +48,6 @@
   <source src="https://files.catbox.moe/kpq69l.mp3">
 </audio>
 
-<!-- CURSOR -->
 <div id="cursor"></div>
 
 <script src="script.js"></script>
