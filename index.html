@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Crimson Butterfly</title>
-
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -17,24 +16,40 @@
   <button id="startBtn">Start</button>
 </div>
 
-<!-- GAME -->
-<div id="dialogueBox">
-  <div id="storyText"></div>
-  <div id="questionText"></div>
+<!-- GAME UI -->
+<div id="game">
+
+  <div id="storyBox">
+    <div id="storyText"></div>
+  </div>
+
+  <div id="questionBox">
+    <div id="questionText"></div>
+  </div>
+
+  <div id="choices"></div>
+
 </div>
 
-<div id="choices"></div>
-
+<!-- ENDING -->
 <div id="ending"></div>
 
 <!-- AUDIO -->
 <audio id="bgm" loop>
-  <source src="https://files.catbox.moe/kpq69l.mp3">
+  <source src="https://files.catbox.moe/kpq69l.mp3" type="audio/mpeg">
 </audio>
 
 <audio id="clickSound">
-  <source src="https://files.catbox.moe/kpq69l.mp3">
+  <source src="https://files.catbox.moe/kpq69l.mp3" type="audio/mpeg">
 </audio>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html></audio>
 
 <!-- CURSOR -->
 <div id="cursor"></div>
