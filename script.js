@@ -265,10 +265,29 @@ endingBox.innerHTML=`
 `;
 }
 
-/* FINAL LETTER (UNCHANGED) */
+/* FINAL LETTER (FIXED - ORIGINAL RESTORED) */
 window.finalLetter=function(){
 
-endingBox.innerHTML=`
+/* create overlay scene */
+const scene=document.createElement("div");
+scene.id="endingScene";
+
+/* butterflies ambience */
+for(let i=0;i<12;i++){
+setTimeout(()=>{
+const b=document.createElement("div");
+b.className="bfly";
+b.innerHTML="🦋";
+b.style.left=Math.random()*100+"vw";
+b.style.top=(60+Math.random()*30)+"vh";
+document.body.appendChild(b);
+setTimeout(()=>b.remove(),2000);
+},i*120);
+}
+
+scene.innerHTML=`
+<div class="endingContent">
+
 <div class="letter">
 
 <h1>💌 The Butterfly That Stayed</h1>
@@ -312,29 +331,30 @@ I stopped being alone.
 <h3>🦋 A Small Poem</h3>
 
 <p>
-I built a garden out of fear,
-<br>
-where nothing leaves and nothing nears.
-<br><br>
-But you became the wind so kind,
-<br>
-that even locked doors lost their mind.
-<br><br>
-And if I ever learn to bloom,
-<br>
-to let the light fill every room…
-<br><br>
-I think it started here with you—
-<br>
+I built a garden out of fear,<br>
+where nothing leaves and nothing nears.<br><br>
+
+But you became the wind so kind,<br>
+that even locked doors lost their mind.<br><br>
+
+And if I ever learn to bloom,<br>
+to let the light fill every room…<br><br>
+
+I think it started here with you—<br>
 with someone patient, soft, and true.
 </p>
 
-<p>I love you, my dear husband.</p>
+<p>
+I love you, my dear husband.
+</p>
+
+</div>
 
 </div>
 `;
-};
 
+document.body.appendChild(scene);
+};
 /* START */
 menuScreen.style.display="flex";
 document.getElementById("startBtn").onclick=()=>{
